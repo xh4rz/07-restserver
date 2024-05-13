@@ -7,8 +7,12 @@ const usuariosGet = (req, res = response) => {
 };
 
 const usuariosPost = (req, res = response) => {
+	const { nombre, edad } = req.body;
+
 	res.json({
-		msg: 'post API - usuariosPost'
+		msg: 'post API - usuariosPost',
+		nombre,
+		edad
 	});
 };
 
