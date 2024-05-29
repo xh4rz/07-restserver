@@ -45,7 +45,6 @@ const usuariosPut = async (req, res = response) => {
 
 	const { _id, password, google, correo, ...resto } = req.body;
 
-	// todo: validar contra base de datos
 	if (password) {
 		// Encriptar la contraseña
 		const salt = bcryptjs.genSaltSync();
@@ -62,10 +61,15 @@ const usuariosPatch = (req, res = response) => {
 		msg: 'patch API - usuariosPatch'
 	});
 };
-const usuariosDelete = (req, res = response) => {
-	res.json({
-		msg: 'delete API - usuariosDelete'
-	});
+const usuariosDelete = async (req, res = response) => {
+	const { id } = req.params;
+
+	// Fisicamente lo borramos
+	// const usuario = await Usuario.findByIdAndDelete(id);
+
+	const usuario = await Usuario.findByIdAndUpdate(id, { estado: false });
+
+	res.json(usuario);
 };
 
 module.exports = {
