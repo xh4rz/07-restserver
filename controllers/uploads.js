@@ -8,10 +8,12 @@ const cargarArchivo = async (req, res = response) => {
 	}
 
 	try {
-		const nombre = await subirArchivo(req.files);
-		return res.json({ nombre });
+		// const nombre = await subirArchivo(req.files, ['txt', 'md'], 'textos');
+		const nombre = await subirArchivo(req.files, undefined, 'imgs');
+
+		res.json({ nombre });
 	} catch (msg) {
-		return res.status(400).json({ msg });
+		res.status(400).json({ msg });
 	}
 };
 
