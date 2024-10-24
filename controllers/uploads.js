@@ -1,3 +1,5 @@
+const path = require('path');
+const fs = require('fs');
 const { response } = require('express');
 const { subirArchivo } = require('../helpers');
 const { Usuario, Producto } = require('../models');
@@ -43,13 +45,34 @@ const actualizarImagen = async (req, res = response) => {
 			return res.status(500).json({ msg: 'Se me olvidó validar esto' });
 	}
 
-	const nombre = await subirArchivo(req.files, undefined, coleccion);
+	// limpiar imagenes previas
 
-	modelo.img = nombre;
+	if (modelo.img) {
+		// borrar imagen del servidor
 
-	await modelo.save();
+		const pathImagen = path.join(
+			__dirname,
+			'../uploads',
+			coleccion,
+			modelo.img
+		);
 
-	res.json(modelo);
+		if (fs.existsSync(pathImagen)) {
+			fs.unlinkSync(pathImagen);
+		}
+	}
+
+	try {
+		const nombre = await subirArchivo(req.files, undefined, coleccion);
+
+		modelo.img = nombre;
+
+		await modelo.save();
+
+		res.json(modelo);
+	} catch (msg) {
+		res.status(400).json({ msg });
+	}
 };
 
 module.exports = {
