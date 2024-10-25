@@ -3,8 +3,9 @@ const { check } = require('express-validator');
 const { validarCampos, validarArchivoSubir } = require('../middlewares');
 const {
 	cargarArchivo,
-	actualizarImagen,
-	mostrarImagen
+	// actualizarImagen,
+	mostrarImagen,
+	actualizarImagenCloudinary
 } = require('../controllers/uploads');
 const { coleccionesPermitidas } = require('../helpers');
 
@@ -22,7 +23,8 @@ router.put(
 		),
 		validarCampos
 	],
-	actualizarImagen
+	// actualizarImagen
+	actualizarImagenCloudinary
 );
 
 router.get(
